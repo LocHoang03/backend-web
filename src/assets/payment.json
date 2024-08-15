@@ -1,0 +1,39 @@
+[
+  {
+    "typePack": "High",
+    "monthlyPrice": "165",
+    "qualityPicture": "The best",
+    "resolution": "4K (Ultra HD) + HDR",
+    "spatialSound": "Had",
+    "deviceSupport": "TV, computer, mobile phone, tablet",
+    "quantityWatch": "4",
+    "quantityDownload": "6"
+  },
+  {
+    "typePack": "Standard",
+    "monthlyPrice": "115",
+    "qualityPicture": "Great",
+    "resolution": "1080p (Full HD)",
+    "deviceSupport": "TV, computer, mobile phone, tablet",
+    "quantityWatch": "2",
+    "quantityDownload": "2"
+  },
+  {
+    "typePack": "Basic",
+    "monthlyPrice": "70",
+    "qualityPicture": "Good",
+    "resolution": "720p (HD)",
+    "deviceSupport": "TV, computer, mobile phone, tablet",
+    "quantityWatch": "1",
+    "quantityDownload": "1"
+  },
+  {
+    "typePack": "Mobile",
+    "monthlyPrice": "30",
+    "qualityPicture": "Rather",
+    "resolution": "480p",
+    "deviceSupport": "TV, computer, mobile phone, tablet",
+    "quantityWatch": "1",
+    "quantityDownload": "1"
+  }
+]
