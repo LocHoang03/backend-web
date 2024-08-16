@@ -15,7 +15,7 @@ const emailResetPasswordTemplate = (email, password) => `
 
                 <div style="text-align: center;margin-bottom: 30px"><span style="box-sizing: border-box;border-color: #348eda;font-weight: 400;text-decoration: none;display: inline-block;margin: 0;color: #ffffff;background-color: #348eda;border: solid 1px #348eda;border-radius: 2px;font-size: 14px;padding: 12px 45px;">Password: ${password}</span></div>
 
-                <div style="text-align: center;margin-bottom: 30px"><a href="https://showhub-two.vercel.app/auth/login" style="box-sizing: border-box;border-color: #348eda;font-weight: 400;text-decoration: none;display: inline-block;margin: 0;color: #ffffff;background-color: #00c9d3;border: solid 1px #348eda;border-radius: 2px;font-size: 14px;padding: 12px 45px;">Go to Login Page</a></div>
+                <div style="text-align: center;margin-bottom: 30px"><a href="https://showhub-taupe.vercel.app/auth/login" style="box-sizing: border-box;border-color: #348eda;font-weight: 400;text-decoration: none;display: inline-block;margin: 0;color: #ffffff;background-color: #00c9d3;border: solid 1px #348eda;border-radius: 2px;font-size: 14px;padding: 12px 45px;">Go to Login Page</a></div>
 
                 <p style="margin: 0;margin-bottom: 30px;color: #294661;font-size: 16px;font-weight: 300;">If you did not initiate this request, please contact us immediately at hoangphuocloc.phurieng@gmail.com.</p>
 
