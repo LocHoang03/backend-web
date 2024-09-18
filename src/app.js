@@ -48,7 +48,13 @@ userNamespace.on('connection', (socket) => {
   });
 
   socket.on('chatCustomer', (data) => {
-    adminNamespace.emit('chatCustomer', data);
+    console.log('msg-user', data);
+    socket.to(data.roomId).emit('receiveChatCustomer', data);
+  });
+
+  socket.on('chatCustomerAdmin', (data) => {
+    console.log('data-user', data);
+    adminNamespace.emit('receiveChatCustomer', data);
   });
 
   socket.on('disconnect', () => {});
@@ -71,7 +77,8 @@ adminNamespace.on('connection', (socket) => {
   });
 
   socket.on('chatCustomer', (data) => {
-    userNamespace.emit('chatCustomer', data);
+    // console.log('msg-admin', data);
+    // socket.to(data.roomId).emit('receiveChatCustomer', data);
   });
 
   socket.on('disconnect', () => {});
