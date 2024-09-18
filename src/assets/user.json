@@ -1,30 +1,16 @@
 [
   {
-    "firstName": "Loc",
-    "lastName": "Hoang",
-    "email": "locvd111@gmail.com",
-    "phoneNumber": "0919567862",
-    "password": "$2a$12$lGOFsaEd1IxIdEzR94CMCeto4QSjE0RdbmlHuDmGCeUyVMQilPLw.",
+    "firstName": "Admin",
+    "lastName": "01",
+    "email": "superadmin01@gmail.com",
+    "phoneNumber": "0919567800",
+    "password": "$2a$12$tiGMZxr1ZGLMrHtgt8Lvjem6CD..GSR9hLF2SQtN5oo9bGojKlnvm",
     "sex": "male",
     "avatarUser": {
       "imageId": "image-avatar/wxcqrfpkhef33f2rxlfp",
       "url": "https://res.cloudinary.com/dzxupp48t/image/upload/v1711626829/image-avatar/wxcqrfpkhef33f2rxlfp.png"
     },
     "role": "superAdmin",
-    "createAt": "2024-03-18T12:00:00.000Z"
-  },
-  {
-    "firstName": "Lam",
-    "lastName": "Nguyen",
-    "email": "lam1919@gmail.com",
-    "phoneNumber": "037890145",
-    "password": "$2a$12$lGOFsaEd1IxIdEzR94CMCeto4QSjE0RdbmlHuDmGCeUyVMQilPLw.",
-    "sex": "male",
-    "avatarUser": {
-      "imageId": "image-avatar/wxcqrfpkhef33f2rxlfp",
-      "url": "https://res.cloudinary.com/dzxupp48t/image/upload/v1711626829/image-avatar/wxcqrfpkhef33f2rxlfp.png"
-    },
-    "role": "admin",
     "createAt": "2024-03-18T12:00:00.000Z"
   }
 ]

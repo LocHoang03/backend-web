@@ -9,13 +9,14 @@ const fs = require('fs');
 const Subscriber = require('../../../models/subscriber.js');
 const generator = require('generate-password');
 const emailResetPasswordTemplate = require('../../../configs/mailResetPassword.js');
+const transporter = require('../../../configs/nodeMailer.js');
 
 exports.postLogin = AsyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new ErrorResponse(errors.array()[0].msg, 401));
   }
-
+  console.log(req.body);
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return next(

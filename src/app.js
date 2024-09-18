@@ -3,6 +3,7 @@ const app = express();
 require('dotenv').config();
 const configDb = require('./configs/configdb.js');
 const cors = require('cors');
+require('./configs/passport.js');
 
 const { createServer } = require('http');
 const { Server } = require('socket.io');

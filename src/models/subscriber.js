@@ -18,12 +18,12 @@ const Subscriber = new Schema({
   },
   phoneNumber: {
     type: String,
-    required: true,
+    required: false,
     unique: true,
   },
   sex: {
     type: String,
-    required: true,
+    required: false,
     enum: ['male', 'female', 'other'],
   },
   avatarUser: {
@@ -57,7 +57,7 @@ const Subscriber = new Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false,
   },
   isBanned: {
     type: Boolean,
@@ -71,6 +71,7 @@ const Subscriber = new Schema({
   },
   createAt: {
     type: Date,
+    default: Date.now(),
   },
   resetToken: String,
   tokenExpiration: Date,

@@ -8,6 +8,7 @@ const {
   postLogout,
   postVerifyLogin,
   postRequestCode,
+  postLoginAuthentication,
 } = require('../../../controllers/user/auth/index');
 const { body } = require('express-validator');
 const User = require('../../../models/user');
@@ -47,6 +48,8 @@ router.route('/signup').post(
 router
   .route('/login')
   .post([body('email', 'Please enter email in correct format!!')], postLogin);
+
+router.route('/login-authentication').post(postLoginAuthentication);
 
 router
   .route('/forgot-password')

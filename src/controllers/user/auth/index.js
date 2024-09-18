@@ -75,6 +75,52 @@ exports.postLogin = AsyncHandler(async (req, res, next) => {
   }
 });
 
+exports.postLoginAuthentication = AsyncHandler(async (req, res, next) => {
+  const user = await Subscriber.findOne({ _id: req.body.userId });
+
+  if (!user) {
+    return next(new ErrorResponse('This account was not found!!', 401));
+  }
+
+  const userInfo = {
+    userId: user._id,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    avatarUser: user.avatarUser,
+    phoneNumber: user.phoneNumber,
+    sex: user.sex,
+  };
+  const token = await hashToken(userInfo);
+
+  if (user.isBanned) {
+    res.status(200).json({
+      success: true,
+      isBanned: true,
+      version: 1.0,
+    });
+  } else {
+    const code = Math.floor(100000 + Math.random() * 900000);
+    user.twoFactor.auth = false;
+    user.twoFactor.code = code;
+    user.twoFactor.time = Date.now() + 1800000;
+    user.twoFactor.resend = Date.now();
+    await user.save();
+    transporter.sendMail({
+      from: `Showhub ${process.env.EMAIL_USERNAME}`,
+      to: user.email,
+      subject: 'Requires login authentication for your Showhub account.',
+      html: emailLogin(`${user.firstName} ${user.lastName}`, code),
+    });
+    res.status(200).json({
+      success: true,
+      isBanned: false,
+      token: token,
+      version: 1.0,
+    });
+  }
+});
+
 exports.postRequestCode = AsyncHandler(async (req, res, next) => {
   const user = await Subscriber.findOne({
     email: req.body.email,
