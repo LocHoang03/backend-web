@@ -18,8 +18,6 @@ const Subscriber = new Schema({
   },
   phoneNumber: {
     type: String,
-    required: false,
-    unique: true,
   },
   sex: {
     type: String,
