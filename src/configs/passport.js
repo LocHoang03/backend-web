@@ -16,6 +16,7 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, cb) {
       let newUser, user, subscriber;
+      console.log(profile);
       try {
         user = await User.findOne({ email: profile.emails[0].value });
         subscriber = await Subscriber.findOne({

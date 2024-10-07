@@ -55,11 +55,23 @@ const createOrderPdf = (orderPdf) => {
           orderPdf.userId.lastName,
       );
     pdfDoc.moveDown();
-    pdfDoc.fontSize(14).text('Phone number: ' + orderPdf.userId.phoneNumber);
+    pdfDoc
+      .fontSize(14)
+      .text(
+        'Phone number: ' +
+          (orderPdf.userId.phoneNumber
+            ? orderPdf.userId.phoneNumber
+            : 'Not yet updated'),
+      );
     pdfDoc.moveDown();
     pdfDoc.fontSize(14).text('Email: ' + orderPdf.userId.email);
     pdfDoc.moveDown();
-    pdfDoc.fontSize(14).text('Gender: ' + orderPdf.userId.sex);
+    pdfDoc
+      .fontSize(14)
+      .text(
+        'Gender: ' +
+          (orderPdf.userId.sex ? orderPdf.userId.sex : 'Not yet updated'),
+      );
     pdfDoc.moveDown();
     pdfDoc.fontSize(14).text('Date: ' + `${day}/${month}/${year}`);
 
