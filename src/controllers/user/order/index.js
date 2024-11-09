@@ -33,7 +33,7 @@ exports.getOrderFromUserId = AsyncHandler(async (req, res, next) => {
 });
 
 exports.postPackageOrder = AsyncHandler(async (req, res, next) => {
-  const order = await Order.findOne({
+  const order = await Order.find({
     userId: req.body.userId,
     expirationDate: { $gt: Date.now() },
   })

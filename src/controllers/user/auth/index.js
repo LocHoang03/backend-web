@@ -24,14 +24,14 @@ exports.postLogin = AsyncHandler(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new ErrorResponse('Account information or password is incorrect!!', 401),
+      new ErrorResponse('Thông tin tài khoản hoặc mật khẩu không đúng!!', 401),
     );
   }
   const hashPassword = await bcrypt.compare(req.body.password, user.password);
 
   if (!hashPassword) {
     return next(
-      new ErrorResponse('Account information or password is incorrect!!', 401),
+      new ErrorResponse('Thông tin tài khoản hoặc mật khẩu không đúng!!', 401),
     );
   }
 
@@ -63,7 +63,7 @@ exports.postLogin = AsyncHandler(async (req, res, next) => {
     transporter.sendMail({
       from: `Showhub ${process.env.EMAIL_USERNAME}`,
       to: req.body.email,
-      subject: 'Requires login authentication for your Showhub account.',
+      subject: 'Yêu cầu xác thực đăng nhập cho tài khoản Showhub của bạn.',
       html: emailLogin(`${user.firstName} ${user.lastName}`, code),
     });
     res.status(200).json({
@@ -79,7 +79,7 @@ exports.postLoginAuthentication = AsyncHandler(async (req, res, next) => {
   const user = await Subscriber.findOne({ _id: req.body.userId });
 
   if (!user) {
-    return next(new ErrorResponse('This account was not found!!', 401));
+    return next(new ErrorResponse('Tài khoản này không được tìm thấy!!', 401));
   }
 
   const userInfo = {
@@ -109,7 +109,7 @@ exports.postLoginAuthentication = AsyncHandler(async (req, res, next) => {
     transporter.sendMail({
       from: `Showhub ${process.env.EMAIL_USERNAME}`,
       to: user.email,
-      subject: 'Requires login authentication for your Showhub account.',
+      subject: 'Yêu cầu xác thực đăng nhập cho tài khoản Showhub của bạn.',
       html: emailLogin(`${user.firstName} ${user.lastName}`, code),
     });
     res.status(200).json({
@@ -128,7 +128,7 @@ exports.postRequestCode = AsyncHandler(async (req, res, next) => {
     'twoFactor.resend': { $lt: Date.now() },
   });
   if (!user) {
-    return next(new ErrorResponse('Not enough time to request again!!', 401));
+    return next(new ErrorResponse('Không đủ thời gian để yêu cầu lại!!', 401));
   }
 
   const code = Math.floor(100000 + Math.random() * 900000);
@@ -140,7 +140,7 @@ exports.postRequestCode = AsyncHandler(async (req, res, next) => {
   transporter.sendMail({
     from: `Showhub ${process.env.EMAIL_USERNAME}`,
     to: req.body.email,
-    subject: 'Requires login authentication for your Showhub account.',
+    subject: 'Yêu cầu xác thực đăng nhập cho tài khoản Showhub của bạn.',
     html: emailLogin(`${user.firstName} ${user.lastName}`, code),
   });
 
@@ -169,10 +169,7 @@ exports.postSignup = AsyncHandler(async (req, res, next) => {
 
   if (!hashPassword) {
     return next(
-      new ErrorResponse(
-        'The server is having problems, please try again later!!',
-        401,
-      ),
+      new ErrorResponse('Server đang gặp sự cố, vui lòng thử lại sau!!', 401),
     );
   } else {
     const newUser = await Subscriber.create({
@@ -190,7 +187,7 @@ exports.postSignup = AsyncHandler(async (req, res, next) => {
         transporter.sendMail({
           from: `Showhub ${process.env.EMAIL_USERNAME}`,
           to: req.body.email,
-          subject: 'Requires registration of your Showhub account',
+          subject: 'Yêu cầu đăng ký tài khoản Showhub của bạn',
           html: emailSignupTemplate(
             req.body.firstName + req.body.lastName,
             password,
@@ -199,20 +196,15 @@ exports.postSignup = AsyncHandler(async (req, res, next) => {
         return res.status(200).json({
           user: newUser,
           success: true,
-          message: 'Create user successfully.',
+          message: 'Tạo tài khoản thành công.',
           version: 1.0,
         });
       } catch (error) {
-        return next(
-          new ErrorResponse('Error occurred while sending email.', 500),
-        );
+        return next(new ErrorResponse('Đã xảy ra lỗi khi gửi email.', 500));
       }
     } else {
       return next(
-        new ErrorResponse(
-          'The server is having problems, please try again later!!',
-          401,
-        ),
+        new ErrorResponse('Server đang gặp sự cố, vui lòng thử lại sau!!', 401),
       );
     }
   }
@@ -227,7 +219,7 @@ exports.postForgotPassword = AsyncHandler(async (req, res, next) => {
   const user = await Subscriber.findOne({ email: req.body.email });
 
   if (!user) {
-    return next(new ErrorResponse('Registration email does not exist!!', 401));
+    return next(new ErrorResponse('Email đăng ký không tồn tại!!', 401));
   }
   const randomBytes = util.promisify(crypto.randomBytes);
   const buf = await randomBytes(32);
@@ -239,16 +231,16 @@ exports.postForgotPassword = AsyncHandler(async (req, res, next) => {
     transporter.sendMail({
       from: `Showhub ${process.env.EMAIL_USERNAME}`,
       to: req.body.email,
-      subject: 'Your Showhub password reset request',
+      subject: 'Yêu cầu đặt lại mật khẩu Showhub của bạn',
       html: emailTemplate(user.firstName + user.lastName, token),
     });
     return res.status(200).json({
       success: true,
-      message: 'Create request password successfully.',
+      message: 'Yêu cầu tạo mật khẩu thành công.',
       version: 1.0,
     });
   } catch (error) {
-    return next(new ErrorResponse('Error occurred while sending email.', 500));
+    return next(new ErrorResponse('Đã xảy ra lỗi khi gửi email.', 500));
   }
 });
 
@@ -281,7 +273,7 @@ exports.postNewPassword = AsyncHandler(async (req, res, next) => {
   if (!schema.validate(req.body.newPassword)) {
     return next(
       new ErrorResponse(
-        'Password must have at least 8 characters, including uppercase letters, lowercase letters, numbers and special characters.',
+        'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.',
         401,
       ),
     );
@@ -293,17 +285,14 @@ exports.postNewPassword = AsyncHandler(async (req, res, next) => {
   });
 
   if (!user) {
-    return next(new ErrorResponse('The token has expired!!', 401));
+    return next(new ErrorResponse('Mã xác nhận đã hết hạn!!', 401));
   }
 
   const hashPassword = await bcrypt.hash(req.body.newPassword, 12);
 
   if (!hashPassword) {
     return next(
-      new ErrorResponse(
-        'The server is having problems, please try again later!!',
-        401,
-      ),
+      new ErrorResponse('Server đang gặp sự cố, vui lòng thử lại sau!!', 401),
     );
   }
 
@@ -312,7 +301,7 @@ exports.postNewPassword = AsyncHandler(async (req, res, next) => {
   await user.save();
   return res.status(201).json({
     success: true,
-    message: 'Change new password successfully.',
+    message: 'Đổi mật khẩu mới thành công.',
     version: 1.0,
   });
 });
@@ -323,11 +312,11 @@ exports.postVerifyToken = AsyncHandler(async (req, res, next) => {
     tokenExpiration: { $gt: Date.now() },
   });
   if (!user) {
-    return next(new ErrorResponse('The token has expired!!', 401));
+    return next(new ErrorResponse('Mã xác nhận đã hết hạn!!', 401));
   } else {
     return res.status(200).json({
       success: true,
-      message: 'Verify successfully.',
+      message: 'Xác minh thành công.',
       isAuth: user.twoFactor.auth,
       version: 1.0,
     });
@@ -337,13 +326,13 @@ exports.postVerifyToken = AsyncHandler(async (req, res, next) => {
 exports.postLogout = AsyncHandler(async (req, res, next) => {
   const user = await Subscriber.findById(req.user.userId);
   if (!user) {
-    return next(new ErrorResponse('User does not exist!!!!', 401));
+    return next(new ErrorResponse('Người dùng không tồn tại!!', 401));
   } else {
     user.twoFactor.auth = false;
     await user.save();
     return res.status(200).json({
       success: true,
-      message: 'Logout successfully.',
+      message: 'Đăng xuất thành công.',
       version: 1.0,
     });
   }

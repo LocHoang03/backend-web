@@ -9,15 +9,15 @@ const emailExplain = (email, text) => `
         </div>
         <div style="width: 100%;margin: auto; font-family: Roboto, sans-serif; border: 1px solid #f0f0f0; text-align: left">
             <div style="padding: 20px;">
-                <h2 style="margin: 0; margin-bottom: 30px; font-weight: 300; line-height: 1.5; font-size: 24px; color: #294661 !important;">Hello ${email},</h2>
+                <h2 style="margin: 0; margin-bottom: 30px; font-weight: 300; line-height: 1.5; font-size: 24px; color: #294661 !important;">Xin chào ${email},</h2>
 
-                <p style="margin: 0; margin-bottom: 30px; color: #294661; font-size: 16px; font-weight: 300;">Your request for feedback has been received.</p>
+                <p style="margin: 0; margin-bottom: 30px; color: #294661; font-size: 16px; font-weight: 300;">Yêu cầu phản hồi của bạn đã được nhận.</p>
 
                 <p style="margin: 0;margin-bottom: 30px;color: #294661;font-size: 16px;font-weight: 300;">${text}</p>
 
-                <p style="margin: 0;margin-bottom: 30px;color: #294661;font-size: 16px;font-weight: 300;">If you did not initiate this request, please contact us immediately at hoangphuocloc.phurieng@gmail.com.</p>
+                <p style="margin: 0;margin-bottom: 30px;color: #294661;font-size: 16px;font-weight: 300;">Nếu bạn không thực hiện yêu cầu này, vui lòng liên hệ ngay với chúng tôi theo địa chỉ hoangphuocloc.phurieng@gmail.com.</p>
 
-                <p style="margin: 0;margin-bottom: 30px;color: #294661;font-size: 16px;font-weight: 300;">Thank you,<br>The ShowHub Team</p>
+                <p style="margin: 0;margin-bottom: 30px;color: #294661;font-size: 16px;font-weight: 300;">Cảm ơn,<br>Nhóm ShowHub</p>
             </div>
             <div style="background-color: #f8f8f8; padding: 10px; text-align: center; border-top: 1px solid #ddd;">
                 <div>

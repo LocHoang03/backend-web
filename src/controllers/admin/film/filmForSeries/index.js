@@ -35,22 +35,18 @@ exports.postCreateFilmForSeries = AsyncHandler(async (req, res, next) => {
     videoUrl: infoVideo,
     createAt: Date.now(),
     seriesId: req.params.seriesId,
-    createBy: '6543c28ae4b2dbdf546106c3',
   });
 
   if (!film) {
     return next(
-      new ErrorResponse(
-        `The system is experiencing problems, please try again later!!`,
-        401,
-      ),
+      new ErrorResponse(`Hệ thống đang gặp sự cố, vui lòng thử lại sau!!`, 401),
     );
   }
 
   res.status(201).json({
     success: true,
     data: film,
-    message: 'Create film successfully',
+    message: 'Tạo phim thành công',
   });
 });
 
@@ -79,7 +75,7 @@ exports.postDeleteFilmForSeries = AsyncHandler(async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    message: `delete movies ${req.params.moviesId} successfully`,
+    message: `Xóa phim thành công.`,
   });
 });
 
@@ -120,7 +116,7 @@ exports.postUpdateFilmForSeries = AsyncHandler(async (req, res, next) => {
   res.status(201).json({
     success: true,
     data: film,
-    message: `update film ${req.params.filmId} successfully`,
+    message: `Cập nhật phim thành công.`,
   });
 });
 
@@ -148,7 +144,7 @@ exports.postCheckSeriesNumber = AsyncHandler(async (req, res, next) => {
       ) {
         return next(
           new ErrorResponse(
-            `This film number already exists, please enter another number!!`,
+            `Tập phim này đã tồn tại, vui lòng nhập số khác!!`,
             401,
           ),
         );
@@ -174,7 +170,7 @@ exports.postRecoverFilmForSeries = AsyncHandler(async (req, res, next) => {
   await film.save();
   res.status(200).json({
     success: true,
-    message: 'Changed the status film successfully',
+    message: 'Đã thay đổi trạng thái phim thành công',
   });
 });
 
@@ -192,7 +188,7 @@ exports.postAddManyFilmForSeries = AsyncHandler(async (req, res, next) => {
         count = id + 1;
         return next(
           new ErrorResponse(
-            `Detect errors in excel data in line numbers ${count}!!`,
+            `Phát hiện lỗi dữ liệu excel ở số dòng ${count}!!`,
             401,
           ),
         );
@@ -217,6 +213,6 @@ exports.postAddManyFilmForSeries = AsyncHandler(async (req, res, next) => {
   await DeleteFile(req.file.path);
   res.status(200).json({
     success: true,
-    message: 'Add many film for series successfully',
+    message: 'Thêm nhiều bộ phim thành công',
   });
 });

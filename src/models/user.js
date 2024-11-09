@@ -28,7 +28,7 @@ const User = new Schema({
   sex: {
     type: String,
     required: true,
-    enum: ['male', 'female', 'other'],
+    enum: ['Nam', 'Nữ'],
   },
   avatarUser: {
     imageId: {
@@ -45,8 +45,7 @@ const User = new Schema({
   role: {
     type: String,
     required: true,
-    enum: ['superAdmin', 'admin'],
-    default: 'admin',
+    enum: ['superAdmin', 'adminCustom', 'adminFilm'],
   },
   createAt: {
     type: Date,

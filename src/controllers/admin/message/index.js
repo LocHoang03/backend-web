@@ -12,16 +12,13 @@ exports.postCreateMessage = AsyncHandler(async (req, res, next) => {
   });
   if (!message) {
     return next(
-      new ErrorResponse(
-        `The system is experiencing problems, please try again later!!`,
-        401,
-      ),
+      new ErrorResponse(`Hệ thống đang gặp sự cố, vui lòng thử lại sau!!`, 401),
     );
   }
   res.status(201).json({
     success: true,
     data: message,
-    message: 'Create message successfully',
+    message: 'Tạo tin nhắn thành công.',
   });
 });
 
@@ -60,7 +57,7 @@ exports.postUpdateMessage = AsyncHandler(async (req, res, next) => {
   if (!message) {
     return next(
       new ErrorResponse(
-        `Cannot find message with room Id ${req.params.roomId}!!`,
+        `Không thể tìm thấy tin nhắn có phòng Id ${req.params.roomId}!!`,
         401,
       ),
     );
@@ -79,13 +76,13 @@ exports.postUpdateMessage = AsyncHandler(async (req, res, next) => {
   res.status(201).json({
     data: dataMessage,
     success: true,
-    message: `update message with room Id ${req.params.roomId} successfully`,
+    message: `Cập nhật tin nhắn với phòng Id ${req.params.roomId} thành công.`,
   });
 });
 
 exports.postUpdateOff = AsyncHandler(async (req, res, next) => {
   if (!req.params.roomId) {
-    return next(new ErrorResponse(`Please enter a valid roomId!!`, 401));
+    return next(new ErrorResponse(`Vui lòng nhập Id phòng hợp lệ!!`, 401));
   }
 
   const message = await Message.findOne({ roomId: req.params.roomId });
@@ -93,7 +90,7 @@ exports.postUpdateOff = AsyncHandler(async (req, res, next) => {
   if (!message) {
     return next(
       new ErrorResponse(
-        `Cannot find message with room Id ${req.params.roomId}!!`,
+        `Không thể tìm thấy tin nhắn có phòng Id ${req.params.roomId}!!`,
         401,
       ),
     );
@@ -116,7 +113,7 @@ exports.postUpdateOff = AsyncHandler(async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    message: `Update status live chat roomId ${req.body.roomId} successfully`,
+    message: `Cập nhật trạng thái phòng trò chuyện trực tiếp Id ${req.body.roomId} thành công.`,
   });
 });
 
@@ -127,7 +124,7 @@ exports.postUpdateJoinChat = AsyncHandler(async (req, res, next) => {
     if (!message) {
       return next(
         new ErrorResponse(
-          `Cannot find message with room Id ${req.body.roomId}`,
+          `Không thể tìm thấy tin nhắn có phòng Id ${req.body.roomId}`,
           404,
         ),
       );
@@ -142,6 +139,6 @@ exports.postUpdateJoinChat = AsyncHandler(async (req, res, next) => {
       .status(200)
       .json({ success: true, message: 'Admin updated successfully' });
   } catch (err) {
-    return next(new ErrorResponse('Error updating admin', 500));
+    return next(new ErrorResponse('Lỗi cập nhật quản trị viên', 500));
   }
 });

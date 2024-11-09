@@ -21,7 +21,9 @@ exports.getMessageUser = AsyncHandler(async (req, res, next) => {
     isChatStatus: true,
   }).populate('participants.adminId');
   if (!message) {
-    return next(new ErrorResponse(`Cannot find message status on!!`, 401));
+    return next(
+      new ErrorResponse(`Không thể tìm thấy trạng thái tin nhắn trên!!`, 401),
+    );
   }
 
   res.status(200).json({

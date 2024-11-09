@@ -10,16 +10,13 @@ exports.postCreateCommonQuestions = AsyncHandler(async (req, res, next) => {
   });
   if (!question) {
     return next(
-      new ErrorResponse(
-        `The system is experiencing problems, please try again later!!`,
-        401,
-      ),
+      new ErrorResponse(`Hệ thống đang gặp sự cố, vui lòng thử lại sau!!`, 401),
     );
   }
   res.status(201).json({
     success: true,
     data: question,
-    message: 'Create question successfully',
+    message: 'Tạo câu hỏi thành công.',
   });
 });
 
@@ -28,7 +25,7 @@ exports.postUpdateCommonQuestions = AsyncHandler(async (req, res, next) => {
   if (!question) {
     return next(
       new ErrorResponse(
-        `Cannot find question id ${req.params.questionId}!!`,
+        `Không thể tìm thấy câu hỏi id ${req.params.questionId}!!`,
         401,
       ),
     );
@@ -39,15 +36,13 @@ exports.postUpdateCommonQuestions = AsyncHandler(async (req, res, next) => {
   res.status(201).json({
     success: true,
     data: question,
-    message: `update question ${req.params.questionId} successfully`,
+    message: `Cập nhật câu hỏi ${req.params.questionId} thành công`,
   });
 });
 
 exports.postDeleteCommonQuestions = AsyncHandler(async (req, res, next) => {
   if (!req.params.questionId) {
-    return next(
-      new ErrorResponse(`Please enter a valid id question delete`, 404),
-    );
+    return next(new ErrorResponse(`Vui lòng nhập câu hỏi id xóa hợp lệ.`, 404));
   }
   const question = await CommonQuestions.findOne({
     _id: req.params.questionId,
@@ -55,7 +50,7 @@ exports.postDeleteCommonQuestions = AsyncHandler(async (req, res, next) => {
   if (!question) {
     return next(
       new ErrorResponse(
-        `Cannot find question id ${req.params.questionId}!!`,
+        `Không thể tìm thấy câu hỏi id ${req.params.questionId}!!`,
         401,
       ),
     );
@@ -64,6 +59,6 @@ exports.postDeleteCommonQuestions = AsyncHandler(async (req, res, next) => {
   await CommonQuestions.deleteOne({ _id: req.params.questionId });
   res.status(201).json({
     success: true,
-    message: `delete question ${req.params.questionId} successfully`,
+    message: `Xóa câu hỏi ${req.params.questionId} thành công.`,
   });
 });

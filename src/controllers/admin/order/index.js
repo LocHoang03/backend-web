@@ -35,7 +35,7 @@ exports.postAddPayment = AsyncHandler(async (req, res, next) => {
   return res.status(201).json({
     data: obj,
     success: true,
-    message: `Create order payment successfully.`,
+    message: `Tạo đơn hàng thanh toán thành công.`,
     version: 1.0,
   });
 });

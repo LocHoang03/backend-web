@@ -39,15 +39,12 @@ exports.postAddComment = AsyncHandler(async (req, res, next) => {
     return res.status(200).json({
       data: newComment,
       success: true,
-      message: 'Create comment successfully.',
+      message: 'Tạo bình luận thành công.',
       version: 1.0,
     });
   } else {
     return next(
-      new ErrorResponse(
-        'The server is having problems, please try again later!!',
-        401,
-      ),
+      new ErrorResponse('Server đang gặp sự cố, vui lòng thử lại sau!!', 401),
     );
   }
 });
@@ -63,16 +60,13 @@ exports.postDeleteComment = async (req, res, next) => {
 
   if (!comment) {
     return next(
-      new ErrorResponse(
-        `The system is experiencing problems, please try again later!!`,
-        401,
-      ),
+      new ErrorResponse(`Server đang gặp sự cố, vui lòng thử lại sau!!`, 401),
     );
   }
 
   res.status(201).json({
     success: true,
-    message: `delete comment ${req.params.commentId} successfully`,
+    message: `Xóa bình luận thành công.`,
   });
 };
 
@@ -89,6 +83,6 @@ exports.postUpdateComment = AsyncHandler(async (req, res, next) => {
   res.status(201).json({
     success: true,
     data: comment,
-    message: `update comment ${req.body.commentId} successfully`,
+    message: `Cập nhật bình luận thành công.`,
   });
 });

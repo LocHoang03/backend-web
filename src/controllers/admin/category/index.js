@@ -13,30 +13,27 @@ exports.postCreateCategory = AsyncHandler(async (req, res, next) => {
   });
   if (!category) {
     return next(
-      new ErrorResponse(
-        `The system is experiencing problems, please try again later!!`,
-        401,
-      ),
+      new ErrorResponse(`Hệ thống đang gặp sự cố, vui lòng thử lại sau!!`, 401),
     );
   }
   res.status(201).json({
     success: true,
     data: category,
-    message: 'Create category successfully',
+    message: 'Tạo danh mục thành công.',
   });
 });
 
 exports.postDeleteCategory = AsyncHandler(async (req, res, next) => {
   if (!req.params.categoryId) {
     return next(
-      new ErrorResponse(`Please enter a valid id category delete`, 404),
+      new ErrorResponse(`Vui lòng nhập danh mục id xóa hợp lệ!!`, 404),
     );
   }
   const category = await Category.findOne({ _id: req.params.categoryId });
   if (!category) {
     return next(
       new ErrorResponse(
-        `Cannot find category id ${req.params.categoryId}!!`,
+        `Không thể tìm thấy danh mục id ${req.params.categoryId}!!`,
         401,
       ),
     );
@@ -54,7 +51,7 @@ exports.postDeleteCategory = AsyncHandler(async (req, res, next) => {
   await Category.deleteOne({ _id: req.params.categoryId });
   res.status(201).json({
     success: true,
-    message: `delete category ${req.params.categoryId} successfully`,
+    message: `Xóa danh mục ${req.params.categoryId} thành công`,
   });
 });
 exports.postUpdateCategory = AsyncHandler(async (req, res, next) => {
@@ -62,7 +59,7 @@ exports.postUpdateCategory = AsyncHandler(async (req, res, next) => {
   if (!category) {
     return next(
       new ErrorResponse(
-        `Cannot find category id ${req.params.categoryId}!!`,
+        `Không thể tìm thấy danh mục id ${req.params.categoryId}!!`,
         401,
       ),
     );
@@ -72,6 +69,6 @@ exports.postUpdateCategory = AsyncHandler(async (req, res, next) => {
   res.status(201).json({
     success: true,
     data: category,
-    message: `update category ${req.params.categoryId} successfully`,
+    message: `Cập nhật danh mục ${req.params.categoryId} thành công`,
   });
 });

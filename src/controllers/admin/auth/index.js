@@ -20,7 +20,10 @@ exports.postLogin = AsyncHandler(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return next(
-      new ErrorResponse('Account information or password is incorrect', 401),
+      new ErrorResponse(
+        'Thông tin tài khoản hoặc mật khẩu không chính xác',
+        401,
+      ),
     );
   }
 
@@ -28,7 +31,10 @@ exports.postLogin = AsyncHandler(async (req, res, next) => {
 
   if (!hashPassword) {
     return next(
-      new ErrorResponse('Account information or password is incorrect', 401),
+      new ErrorResponse(
+        'Thông tin tài khoản hoặc mật khẩu không chính xác',
+        401,
+      ),
     );
   }
   const userInfo = {
@@ -92,10 +98,7 @@ exports.postResetPassword = AsyncHandler(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new ErrorResponse(
-        `Cannot find ${req.body.type} id ${req.body.userId}!!`,
-        401,
-      ),
+      new ErrorResponse(`Không tìm thấy người dùng này trong hệ thống!!`, 401),
     );
   }
   const password = generator.generate({
@@ -112,7 +115,7 @@ exports.postResetPassword = AsyncHandler(async (req, res, next) => {
   transporter.sendMail({
     from: `Showhub ${process.env.EMAIL_USERNAME}`,
     to: user.email,
-    subject: 'Requires reset password Showhub account',
+    subject: 'Yêu cầu đặt lại mật khẩu tài khoản Showhub',
     html: emailResetPasswordTemplate(user.firstName + user.lastName, password),
   });
 

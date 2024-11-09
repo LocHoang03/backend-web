@@ -11,7 +11,7 @@ exports.postCreateSeries = AsyncHandler(async (req, res, next) => {
   if (!req.files['imageUrl'] || !req.files['videoTrailerUrl']) {
     return next(
       new ErrorResponse(
-        `Please enter a valid file image and video trailer!!`,
+        `Vui lòng nhập tệp hình ảnh và video trailer hợp lệ!!`,
         404,
       ),
     );
@@ -42,17 +42,14 @@ exports.postCreateSeries = AsyncHandler(async (req, res, next) => {
 
   if (!series) {
     return next(
-      new ErrorResponse(
-        `The system is experiencing problems, please try again later!!`,
-        401,
-      ),
+      new ErrorResponse(`Hệ thống đang gặp sự cố, vui lòng thử lại sau!!`, 401),
     );
   }
 
   res.status(201).json({
     success: true,
     data: series,
-    message: 'Create series successfully',
+    message: 'Tạo phim thành công.',
   });
 });
 
@@ -145,7 +142,7 @@ exports.postUpdateSeries = AsyncHandler(async (req, res, next) => {
   res.status(201).json({
     success: true,
     data: series,
-    message: `update series ${req.params.seriesId} successfully`,
+    message: `Cập nhật phim thành công`,
   });
 });
 
@@ -161,7 +158,7 @@ exports.postRecoverSeries = AsyncHandler(async (req, res, next) => {
   await series.save();
   res.status(200).json({
     success: true,
-    message: 'Changed the status series successfully',
+    message: 'Đã thay đổi trạng thái phim thành công',
   });
 });
 
@@ -187,7 +184,7 @@ exports.postAddManyMovies = AsyncHandler(async (req, res, next) => {
       count = i + 1;
       return next(
         new ErrorResponse(
-          `Detect errors in excel data in line numbers ${count}!!`,
+          `Phát hiện lỗi dữ liệu excel ở số dòng ${count}!!`,
           401,
         ),
       );
@@ -229,6 +226,6 @@ exports.postAddManyMovies = AsyncHandler(async (req, res, next) => {
     success: true,
     data: series,
     count: countSeries.length,
-    message: 'Create many series successfully',
+    message: 'Tạo nhiều phim thành công',
   });
 });

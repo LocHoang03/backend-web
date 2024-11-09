@@ -17,28 +17,28 @@ router.route('/fetch-look').get(getAllUserFetchLook);
 router.route('/create').post(
   CheckToken,
   [
-    body('firstName', 'Please enter your first name at least 3 characters!!')
+    body('firstName', 'Vui lòng nhập tên của bạn ít nhất 1 ký tự!!')
       .trim()
-      .isLength({ min: 3 }),
-    body('lastName', 'Please enter your last name at least 3 characters!!')
+      .isLength({ min: 1 }),
+    body('lastName', 'Vui lòng nhập họ của bạn ít nhất 1 ký tự!!')
       .trim()
-      .isLength({ min: 3 }),
-    body('email', 'Please enter email in correct format!!').custom(
+      .isLength({ min: 1 }),
+    body('email', 'Vui lòng nhập email đúng định dạng!!').custom(
       async (value, { req }) => {
         const user = await User.findOne({ email: value });
         const subscriber = await Subscriber.findOne({ email: value });
         if (user || subscriber) {
-          throw new Error('Email is registered in the system!!');
+          throw new Error('Email đã được đăng ký trong hệ thống!!');
         }
       },
     ),
-    body('phoneNumber', 'Please enter your phone number!!')
+    body('phoneNumber', 'Vui lòng nhập số điện thoại của bạn!!')
       .isMobilePhone()
       .custom(async (value, { req }) => {
         const user = await User.findOne({ phoneNumber: value });
         const subscriber = await Subscriber.findOne({ phoneNumber: value });
         if (user || subscriber) {
-          throw new Error('Phone number has been registered!!');
+          throw new Error('Số điện thoại đã được đăng ký!!');
         }
       }),
   ],
@@ -48,13 +48,13 @@ router.route('/create').post(
 router.route('/update/:userId').post(
   CheckToken,
   [
-    body('firstName', 'Please enter your first name at least 3 characters!!')
+    body('firstName', 'Vui lòng nhập tên của bạn với ít nhất 1 ký tự!!')
       .trim()
-      .isLength({ min: 3 }),
-    body('lastName', 'Please enter your last name at least 3 characters!!')
+      .isLength({ min: 1 }),
+    body('lastName', 'Vui lòng nhập họ của bạn với ít nhất 1 ký tự!!')
       .trim()
-      .isLength({ min: 3 }),
-    body('email', 'Please enter email in correct format!!').custom(
+      .isLength({ min: 1 }),
+    body('email', 'Vui lòng nhập email đúng định dạng!!').custom(
       async (value, { req }) => {
         const user = await User.findOne({
           email: value,
@@ -65,12 +65,12 @@ router.route('/update/:userId').post(
           _id: { $ne: req.params.userId },
         });
         if (user || subscriber) {
-          throw new Error('Email is registered in the system!!');
+          throw new Error('Email đã được đăng ký trong hệ thống!!');
         }
       },
     ),
-    body('phoneNumber', 'Please enter your phone number!!').isMobilePhone(),
-    body('phoneNumber', 'Please enter your phone number!!')
+
+    body('phoneNumber', 'Vui lòng nhập số điện thoại của bạn!!')
       .isMobilePhone()
       .custom(async (value, { req }) => {
         const user = await User.findOne({
@@ -82,7 +82,7 @@ router.route('/update/:userId').post(
           _id: { $ne: req.params.userId },
         });
         if (user || subscriber) {
-          throw new Error('Phone number has been registered!!');
+          throw new Error('Số điện thoại đã được đăng ký!!');
         }
       }),
   ],

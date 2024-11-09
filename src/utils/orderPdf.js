@@ -40,16 +40,16 @@ const createOrderPdf = (orderPdf) => {
 
     pdfDoc
       .fontSize(30)
-      .text('Purchase Invoice', pdfDoc.page.margins.left, 100, {
+      .text('Hoá đơn mua hàng', pdfDoc.page.margins.left, 100, {
         align: 'center',
       });
     pdfDoc.moveDown();
-    pdfDoc.fontSize(14).text('Invoice id: ' + orderPdf._id);
+    pdfDoc.fontSize(14).text('ID hóa đơn: ' + orderPdf._id);
     pdfDoc.moveDown();
     pdfDoc
       .fontSize(14)
       .text(
-        'Customer: ' +
+        'Khách hàng: ' +
           orderPdf.userId.firstName +
           ' ' +
           orderPdf.userId.lastName,
@@ -58,10 +58,10 @@ const createOrderPdf = (orderPdf) => {
     pdfDoc
       .fontSize(14)
       .text(
-        'Phone number: ' +
+        'Số điện thoại: ' +
           (orderPdf.userId.phoneNumber
             ? orderPdf.userId.phoneNumber
-            : 'Not yet updated'),
+            : 'Chưa cập nhật'),
       );
     pdfDoc.moveDown();
     pdfDoc.fontSize(14).text('Email: ' + orderPdf.userId.email);
@@ -69,23 +69,23 @@ const createOrderPdf = (orderPdf) => {
     pdfDoc
       .fontSize(14)
       .text(
-        'Gender: ' +
-          (orderPdf.userId.sex ? orderPdf.userId.sex : 'Not yet updated'),
+        'Giới tính: ' +
+          (orderPdf.userId.sex ? orderPdf.userId.sex : 'Chưa cập nhật'),
       );
     pdfDoc.moveDown();
-    pdfDoc.fontSize(14).text('Date: ' + `${day}/${month}/${year}`);
+    pdfDoc.fontSize(14).text('Ngày mua hàng: ' + `${day}/${month}/${year}`);
 
     const yPosition = pdfDoc.y + 30;
     pdfDoc
       .fontSize(15)
       .fillColor('#24a99f')
-      .text('Package name', pdfDoc.page.margins.left, yPosition);
+      .text('Tên gói', pdfDoc.page.margins.left, yPosition);
     pdfDoc
       .fillColor('#24a99f')
-      .text('Price', pdfDoc.page.margins.left + 150, yPosition);
+      .text('Giá', pdfDoc.page.margins.left + 150, yPosition);
     pdfDoc
       .fillColor('#24a99f')
-      .text('Total', pdfDoc.page.margins.left + 350, yPosition);
+      .text('Tổng', pdfDoc.page.margins.left + 350, yPosition);
 
     pdfDoc
       .strokeColor('#24a99f')
@@ -120,7 +120,7 @@ const createOrderPdf = (orderPdf) => {
       .stroke();
 
     pdfDoc.text(
-      'Total: ' + orderPdf.packageId.monthlyPrice + ' USD',
+      'Tổng: ' + orderPdf.packageId.monthlyPrice + ' USD',
       pdfDoc.page.margins.left + 350,
       y + 30,
       { width: 100, align: 'right' },
@@ -130,13 +130,13 @@ const createOrderPdf = (orderPdf) => {
     pdfDoc.moveDown();
     pdfDoc
       .fontSize(16)
-      .text('Terms & Conditions', pdfDoc.page.margins.left, yPositionTerms);
+      .text('Điều khoản & Điều kiện', pdfDoc.page.margins.left, yPositionTerms);
     pdfDoc.moveDown();
     pdfDoc
       .font('Times-Roman')
       .fontSize(15)
       .text(
-        '1. The rates in this form are not subject to any changes and will be the applicable rates upon payment.',
+        '1. Các mức giá trong biểu mẫu này không có bất kỳ thay đổi nào và sẽ là mức giá áp dụng khi thanh toán.',
         pdfDoc.page.margins.left,
         yPositionTerms + 20,
       );
@@ -144,7 +144,7 @@ const createOrderPdf = (orderPdf) => {
     pdfDoc
       .fontSize(15)
       .text(
-        '2. This delivery order will not take effect unless the recipient presents an original copy of the purchase invoice.',
+        '2. Lệnh giao hàng này sẽ không có hiệu lực trừ khi người nhận xuất trình bản gốc hóa đơn mua hàng.',
         pdfDoc.page.margins.left,
         yPositionTerms + 60,
       );

@@ -19,7 +19,7 @@ exports.getAllSubscriber = AsyncHandler(async (req, res, next) => {
     success: true,
     data: subscriber,
     count: subscriber.length,
-    message: 'get all subscriber successfully',
+    message: 'Get all subscriber successfully.',
   });
 });
 
@@ -130,14 +130,17 @@ exports.postBannedSubscriber = AsyncHandler(async (req, res, next) => {
 
   if (!subscriber) {
     return next(
-      new ErrorResponse(`Cannot find subscriber id ${req.body.userId}!!`, 401),
+      new ErrorResponse(
+        `Không thể tìm thấy người đăng ký id ${req.body.userId}!!`,
+        401,
+      ),
     );
   }
   subscriber.isBanned = true;
   await subscriber.save();
   res.status(200).json({
     success: true,
-    message: 'Changed the banned status successfully',
+    message: 'Đã thay đổi trạng thái bị cấm thành công.',
   });
 });
 
@@ -146,13 +149,16 @@ exports.postRecoverSubscriber = AsyncHandler(async (req, res, next) => {
 
   if (!subscriber) {
     return next(
-      new ErrorResponse(`Cannot find subscriber id ${req.body.userId}!!`, 401),
+      new ErrorResponse(
+        `Không thể tìm thấy người đăng ký id ${req.body.userId}!!`,
+        401,
+      ),
     );
   }
   subscriber.isBanned = false;
   await subscriber.save();
   res.status(200).json({
     success: true,
-    message: 'Changed the banned status successfully',
+    message: 'Đã thay đổi trạng thái bị cấm thành công.',
   });
 });

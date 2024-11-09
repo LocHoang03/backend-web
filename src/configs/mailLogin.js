@@ -9,13 +9,13 @@ const emailLogin = (name, text) => `
         </div>
         <div style="width: 100%;margin: auto; font-family: Roboto, sans-serif; border: 1px solid #f0f0f0; text-align: left">
             <div style="padding: 20px;">
-                <h2 style="margin: 0; margin-bottom: 30px; font-weight: 300; line-height: 1.5; font-size: 24px; color: #294661 !important;">Hello ${name},</h2>
+                <h2 style="margin: 0; margin-bottom: 30px; font-weight: 300; line-height: 1.5; font-size: 24px; color: #294661 !important;">Xin chào ${name},</h2>
 
-                <p style="margin: 0; margin-bottom: 30px; color: #294661; font-size: 16px; font-weight: 300;">Your authentication request has been received.</p>
+                <p style="margin: 0; margin-bottom: 30px; color: #294661; font-size: 16px; font-weight: 300;">Yêu cầu xác thực của bạn đã được nhận.</p>
 
-                <p style="box-sizing: border-box;border-color: #348eda;width: 215px;text-align: center;font-weight: 400;text-decoration: none;display: inline-block;margin: 0 auto 20px !important;color: #ffffff;background-color: #00c9d3;border: solid 1px #348eda;border-radius: 2px;font-size: 16px;padding: 12px 10px;">Verification codes: ${text}</p>
+                <p style="box-sizing: border-box;border-color: #348eda;width: 215px;text-align: center;font-weight: 400;text-decoration: none;display: inline-block;margin: 0 auto 20px !important;color: #ffffff;background-color: #00c9d3;border: solid 1px #348eda;border-radius: 2px;font-size: 16px;padding: 12px 10px;">Mã xác minh: ${text}</p>
 
-                <p style="margin: 0;margin-bottom: 30px;color: #294661;font-size: 16px;font-weight: 300;">Thank you,<br>The ShowHub Team</p>
+                <p style="margin: 0;margin-bottom: 30px;color: #294661;font-size: 16px;font-weight: 300;">Cảm ơn bạn,<br>Nhóm ShowHub</p>
             </div>
             <div style="background-color: #f8f8f8; padding: 10px; text-align: center; border-top: 1px solid #ddd;">
                 <div>

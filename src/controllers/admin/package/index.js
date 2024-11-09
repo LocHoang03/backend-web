@@ -15,16 +15,13 @@ exports.postCreatePackage = AsyncHandler(async (req, res, next) => {
   });
   if (!package) {
     return next(
-      new ErrorResponse(
-        `The system is experiencing problems, please try again later!!`,
-        401,
-      ),
+      new ErrorResponse(`Hệ thống đang gặp sự cố, vui lòng thử lại sau!!`, 401),
     );
   }
   res.status(201).json({
     success: true,
     data: package,
-    message: 'Create package successfully',
+    message: 'Tạo gói thành công.',
   });
 });
 
@@ -34,7 +31,7 @@ exports.postUpdatePackage = AsyncHandler(async (req, res, next) => {
   if (!package) {
     return next(
       new ErrorResponse(
-        `Cannot find package id ${req.params.packageId}!!`,
+        `Không thể tìm thấy gói id ${req.params.packageId}!!`,
         401,
       ),
     );
@@ -49,7 +46,7 @@ exports.postUpdatePackage = AsyncHandler(async (req, res, next) => {
   res.status(201).json({
     success: true,
     data: package,
-    message: 'Update package successfully',
+    message: 'Cập nhật gói thành công.',
   });
 });
 

@@ -13,15 +13,12 @@ exports.postCreateCustomerQuestions = AsyncHandler(async (req, res, next) => {
   });
   if (!question) {
     return next(
-      new ErrorResponse(
-        `The system is experiencing problems, please try again later!!`,
-        401,
-      ),
+      new ErrorResponse(`Hệ thống đang gặp sự cố, vui lòng thử lại sau!!`, 401),
     );
   }
   res.status(201).json({
     success: true,
-    message: 'Create question successfully',
+    message: 'Tạo câu hỏi thành công.',
   });
 });
 
@@ -32,7 +29,7 @@ exports.postResolveCustomerQuestions = AsyncHandler(async (req, res, next) => {
   if (!question) {
     return next(
       new ErrorResponse(
-        `Cannot find question customer with id ${req.params.explainId}!!`,
+        `Không thể tìm thấy câu hỏi của khách hàng với id ${req.params.explainId}!!`,
         401,
       ),
     );
@@ -40,7 +37,7 @@ exports.postResolveCustomerQuestions = AsyncHandler(async (req, res, next) => {
   transporter.sendMail({
     from: `Showhub ${process.env.EMAIL_USERNAME}`,
     to: question.userId.email,
-    subject: `Requires problem solving: ${question.title}`,
+    subject: `Yêu cầu giải quyết vấn đề: ${question.title}`,
     html: emailExplain(question.userId.email, req.body.explanation),
   });
   question.isHandle = true;
@@ -48,6 +45,6 @@ exports.postResolveCustomerQuestions = AsyncHandler(async (req, res, next) => {
   await question.save();
   res.status(201).json({
     success: true,
-    message: 'Successfully',
+    message: 'Thành công.',
   });
 });

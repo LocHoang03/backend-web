@@ -14,7 +14,7 @@ exports.postCreateMovies = AsyncHandler(async (req, res, next) => {
     !req.files['videoTrailerUrl']
   ) {
     return next(
-      new ErrorResponse(`Please enter a valid file image and video`, 404),
+      new ErrorResponse(`Vui lòng nhập tệp hình ảnh và video hợp lệ!!`, 404),
     );
   }
 
@@ -58,17 +58,14 @@ exports.postCreateMovies = AsyncHandler(async (req, res, next) => {
   });
   if (!movies) {
     return next(
-      new ErrorResponse(
-        `The system is experiencing problems, please try again later!!`,
-        401,
-      ),
+      new ErrorResponse(`Hệ thống đang gặp sự cố, vui lòng thử lại sau!!`, 401),
     );
   }
 
   res.status(201).json({
     success: true,
     data: movies,
-    message: 'Create movies successfully',
+    message: 'Tạo phim thành công.',
   });
 });
 
@@ -101,7 +98,7 @@ exports.postDeleteMovies = AsyncHandler(async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    message: `delete movies ${req.params.moviesId} successfully`,
+    message: `Xóa phim thành công.`,
   });
 });
 
@@ -165,13 +162,13 @@ exports.postUpdateMovies = AsyncHandler(async (req, res, next) => {
   try {
     await movies.save();
   } catch (error) {
-    console.error('Error saving movie:', error);
+    console.error('Lỗi lưu phim:', error);
   }
 
   res.status(201).json({
     success: true,
     data: movies,
-    message: `update movies ${req.params.moviesId} successfully`,
+    message: `Cập nhật phim thành công`,
   });
 });
 
@@ -204,9 +201,7 @@ exports.postHandleLikeMovies = AsyncHandler(async (req, res, next) => {
       message: `Update list id user like movies ${req.body.filmId} successfully`,
     });
   } catch (err) {
-    return next(
-      new ErrorResponse(`Error updating movies: ${err.message}`, 500),
-    );
+    return next(new ErrorResponse(`Lỗi cập nhật phim: ${err.message}`, 500));
   }
 });
 
@@ -252,9 +247,7 @@ exports.postHandleRatingMovies = AsyncHandler(async (req, res, next) => {
         message: `Update list id user like movies ${req.body.filmId} successfully`,
       });
     } catch (err) {
-      return next(
-        new ErrorResponse(`Error updating movies: ${err.message}`, 500),
-      );
+      return next(new ErrorResponse(`Lỗi cập nhật phim: ${err.message}`, 500));
     }
   } else {
     return next(
@@ -289,7 +282,7 @@ exports.postAddManyMovies = AsyncHandler(async (req, res, next) => {
       count = i + 1;
       return next(
         new ErrorResponse(
-          `Detect errors in excel data in line numbers ${count}!!`,
+          `Phát hiện lỗi dữ liệu excel ở số dòng ${count}!!`,
           401,
         ),
       );
@@ -339,7 +332,7 @@ exports.postAddManyMovies = AsyncHandler(async (req, res, next) => {
     success: true,
     data: movies,
     count: countMovies.length,
-    message: 'Create many movies successfully',
+    message: 'Tạo nhiều phim thành công.',
   });
 });
 
@@ -355,6 +348,6 @@ exports.postRecoverMovies = AsyncHandler(async (req, res, next) => {
   await movies.save();
   res.status(200).json({
     success: true,
-    message: 'Changed the status movies successfully',
+    message: 'Thay đổi trạng thái phim thành công',
   });
 });

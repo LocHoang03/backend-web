@@ -22,7 +22,7 @@ const Subscriber = new Schema({
   sex: {
     type: String,
     required: false,
-    enum: ['male', 'female', 'other'],
+    enum: ['Nam', 'Nữ'],
   },
   avatarUser: {
     imageId: {

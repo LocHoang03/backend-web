@@ -9,8 +9,9 @@ const { validationResult } = require('express-validator');
 require('dotenv').config();
 
 exports.getAllUser = AsyncHandler(async (req, res, next) => {
-  const user = await User.find({ role: 'admin' }).sort({ createAt: -1 });
-
+  const user = await User.find({ role: { $ne: 'superAdmin' } }).sort({
+    createAt: -1,
+  });
   res.status(200).json({
     success: true,
     data: user,
@@ -24,8 +25,10 @@ exports.getAllUserFromPage = async (req, res, next) => {
   const limit = parseInt(req.query.limit) || 10;
   const trash = req.query.trash;
   let count, user;
-  count = await User.find({ role: 'admin' }).sort({ createAt: -1 });
-  user = await User.find({ role: 'admin' })
+  count = await User.find({ role: { $ne: 'superAdmin' } }).sort({
+    createAt: -1,
+  });
+  user = await User.find({ role: { $ne: 'superAdmin' } })
     .sort({ createAt: -1 })
     .skip((page - 1) * limit)
     .limit(limit);
@@ -47,7 +50,7 @@ exports.getAllUserFetchLook = async (req, res, next) => {
   const gender = req.query.gender !== 'All' ? req.query.gender : null;
 
   let query = {
-    role: 'admin',
+    role: { $ne: 'superAdmin' },
     firstName: { $regex: `.*${firstName}.*`, $options: 'i' },
     lastName: { $regex: `.*${lastName}.*`, $options: 'i' },
   };
@@ -93,10 +96,7 @@ exports.createUser = AsyncHandler(async (req, res, next) => {
   const hashPassword = await bcrypt.hash(password, 12);
   if (!hashPassword) {
     return next(
-      new ErrorResponse(
-        'The server is having problems, please try again later!!',
-        401,
-      ),
+      new ErrorResponse('Server đang gặp sự cố, vui lòng thử lại sau!!', 401),
     );
   } else {
     const newUser = await User.create({
@@ -106,6 +106,7 @@ exports.createUser = AsyncHandler(async (req, res, next) => {
       phoneNumber: req.body.phoneNumber,
       sex: req.body.sex,
       password: hashPassword,
+      role: req.body.typeAccount,
       createAt: Date.now(),
     });
 
@@ -114,29 +115,24 @@ exports.createUser = AsyncHandler(async (req, res, next) => {
         res.status(200).json({
           user: newUser,
           success: true,
-          message: 'Create user successfully.',
+          message: 'Tạo tài khoản thành công.',
           version: 1.0,
         });
         return transporter.sendMail({
           from: `Showhub ${process.env.EMAIL_USERNAME}`,
           to: req.body.email,
-          subject: 'Requires registration of your Showhub account',
+          subject: 'Yêu cầu đăng ký tài khoản Showhub của bạn',
           html: emailSignupTemplate(
             `${req.body.firstName} ${req.body.lastName}`,
             password,
           ),
         });
       } catch (error) {
-        return next(
-          new ErrorResponse('Error occurred while sending email.', 500),
-        );
+        return next(new ErrorResponse('Đã xảy ra lỗi khi gửi email.', 500));
       }
     } else {
       return next(
-        new ErrorResponse(
-          'The server is having problems, please try again later!!',
-          401,
-        ),
+        new ErrorResponse('Server đang gặp sự cố, vui lòng thử lại sau!!', 401),
       );
     }
   }
@@ -153,7 +149,10 @@ exports.updateUser = AsyncHandler(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new ErrorResponse(`Cannot find user id ${req.params.userId}!!`, 401),
+      new ErrorResponse(
+        `Không thể tìm thấy người dùng id ${req.params.userId}!!`,
+        401,
+      ),
     );
   }
 
@@ -162,12 +161,13 @@ exports.updateUser = AsyncHandler(async (req, res, next) => {
   user.email = req.body.email;
   user.phoneNumber = req.body.phoneNumber;
   user.sex = req.body.sex;
+  user.role = req.body.typeAccount;
   await user.save();
 
   res.status(201).json({
     data: user,
     success: true,
-    message: `Update user ${req.params.userId} successfully.`,
+    message: `Cập nhật người dùng ${req.params.userId} thành công.`,
     version: 1.0,
   });
 });

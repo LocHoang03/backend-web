@@ -149,7 +149,7 @@ exports.postAddPayment = AsyncHandler(async (req, res, next) => {
   return res.status(201).json({
     order: order,
     success: true,
-    message: `Create order payment id ${req.user._id} successfully.`,
+    message: `Tạo đơn hàng thanh toán thành công.`,
     version: 1.0,
   });
 });

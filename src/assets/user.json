@@ -5,12 +5,40 @@
     "email": "superadmin01@gmail.com",
     "phoneNumber": "0919567800",
     "password": "$2a$12$tiGMZxr1ZGLMrHtgt8Lvjem6CD..GSR9hLF2SQtN5oo9bGojKlnvm",
-    "sex": "male",
+    "sex": "Nam",
     "avatarUser": {
-      "imageId": "image-avatar/wxcqrfpkhef33f2rxlfp",
-      "url": "https://res.cloudinary.com/dzxupp48t/image/upload/v1711626829/image-avatar/wxcqrfpkhef33f2rxlfp.png"
+      "imageId": "image-avatar/fzq5smyvsggi9yabfbfh",
+      "url": "https://res.cloudinary.com/dzxupp48t/image/upload/v1729077427/image-avatar/fzq5smyvsggi9yabfbfh.jpg"
     },
     "role": "superAdmin",
-    "createAt": "2024-03-18T12:00:00.000Z"
+    "createAt": "2024-10-17T12:00:00.000Z"
+  },
+  {
+    "firstName": "NV",
+    "lastName": "01",
+    "email": "nv01@gmail.com",
+    "phoneNumber": "0919567801",
+    "password": "$2a$12$tiGMZxr1ZGLMrHtgt8Lvjem6CD..GSR9hLF2SQtN5oo9bGojKlnvm",
+    "sex": "Nam",
+    "avatarUser": {
+      "imageId": "image-avatar/fzq5smyvsggi9yabfbfh",
+      "url": "https://res.cloudinary.com/dzxupp48t/image/upload/v1729077427/image-avatar/fzq5smyvsggi9yabfbfh.jpg"
+    },
+    "role": "adminCustom",
+    "createAt": "2024-10-17T12:00:00.000Z"
+  },
+  {
+    "firstName": "NV",
+    "lastName": "02",
+    "email": "nv02@gmail.com",
+    "phoneNumber": "0919567802",
+    "password": "$2a$12$tiGMZxr1ZGLMrHtgt8Lvjem6CD..GSR9hLF2SQtN5oo9bGojKlnvm",
+    "sex": "Nữ",
+    "avatarUser": {
+      "imageId": "image-avatar/fzq5smyvsggi9yabfbfh",
+      "url": "https://res.cloudinary.com/dzxupp48t/image/upload/v1729077427/image-avatar/fzq5smyvsggi9yabfbfh.jpg"
+    },
+    "role": "adminFilm",
+    "createAt": "2024-10-17T12:00:00.000Z"
   }
 ]

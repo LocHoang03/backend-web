@@ -16,7 +16,6 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, cb) {
       let newUser, user, subscriber;
-      console.log(profile);
       try {
         user = await User.findOne({ email: profile.emails[0].value });
         subscriber = await Subscriber.findOne({
@@ -24,8 +23,8 @@ passport.use(
         });
         if (!user && !subscriber) {
           newUser = await Subscriber.create({
-            firstName: profile.name.givenName,
-            lastName: profile.name.familyName,
+            firstName: profile?.name?.givenName || ' ',
+            lastName: profile?.name?.familyName || ' ',
             email: profile.emails[0].value,
             createAt: Date.now(),
           });
@@ -33,7 +32,7 @@ passport.use(
           transporter.sendMail({
             from: `Showhub ${process.env.EMAIL_USERNAME}`,
             to: profile.emails[0].value,
-            subject: 'Registration of your Showhub account',
+            subject: 'Đăng ký tài khoản Showhub của bạn',
             html: emailSignupGoogleTemplate(
               profile.name.givenName + profile.name.familyName,
             ),

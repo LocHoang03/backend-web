@@ -15,7 +15,9 @@ const CheckToken = AsyncHandler(async (req, res, next) => {
     token = req.headers.authorization.split(' ')[1];
   }
   if (!token) {
-    return next(new ErrorResponse(`not authorized to access this route`, 401));
+    return next(
+      new ErrorResponse(`Không được phép truy cập tuyến đường này!!`, 401),
+    );
   }
 
   try {
@@ -24,7 +26,7 @@ const CheckToken = AsyncHandler(async (req, res, next) => {
     req.user = decoded.userInfo;
     next();
   } catch (error) {
-    next(new ErrorResponse(`not authorized to access this route`, 401));
+    next(new ErrorResponse(`Không được phép truy cập tuyến đường này!!`, 401));
   }
 });
 module.exports = CheckToken;

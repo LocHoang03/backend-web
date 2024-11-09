@@ -41,7 +41,7 @@ exports.postUpdateProfile = AsyncHandler(async (req, res, next) => {
   if (user) {
     return res.status(401).json({
       success: false,
-      message: `Email or phone number is already used!!`,
+      message: `Email hoặc số điện thoại đã được sử dụng!!`,
       version: 1.0,
     });
   } else {
@@ -68,7 +68,7 @@ exports.postUpdateProfile = AsyncHandler(async (req, res, next) => {
     return res.status(200).json({
       token: token,
       success: true,
-      message: `Update profile user id ${req.user.userId} successfully.`,
+      message: `Cập nhật thành công id người dùng hồ sơ ${req.user.userId}.`,
       version: 1.0,
     });
   }
@@ -82,7 +82,7 @@ exports.postChangePassword = AsyncHandler(async (req, res, next) => {
     user = await Subscriber.findById(req.user.userId);
   }
   if (!user) {
-    return next(new ErrorResponse('User not found!!', 401));
+    return next(new ErrorResponse('Không tìm thấy người dùng!!', 401));
   }
 
   const hashPasswordCheck = await bcrypt.compare(
@@ -91,7 +91,7 @@ exports.postChangePassword = AsyncHandler(async (req, res, next) => {
   );
 
   if (!hashPasswordCheck) {
-    return next(new ErrorResponse('Current password is incorrect!!', 401));
+    return next(new ErrorResponse('Mật khẩu hiện tại không đúng!!', 401));
   }
   const schema = new passwordValidator();
   schema
@@ -114,32 +114,27 @@ exports.postChangePassword = AsyncHandler(async (req, res, next) => {
   if (!schema.validate(req.body.newPassword)) {
     return next(
       new ErrorResponse(
-        'Password must have at least 8 characters, including uppercase letters, lowercase letters, numbers and special characters.',
+        'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.',
         401,
       ),
     );
   }
 
   if (req.body.confirmNewPassword !== req.body.newPassword) {
-    return next(
-      new ErrorResponse('Confirmation password does not match!!', 401),
-    );
+    return next(new ErrorResponse('Mật khẩu xác nhận không khớp!!', 401));
   }
 
   const checkPassword = bcrypt.compare(user.password, req.body.currentPassword);
 
   if (!checkPassword) {
-    return next(new ErrorResponse('Current password is incorrect!!', 401));
+    return next(new ErrorResponse('Mật khẩu hiện tại không đúng!!', 401));
   }
 
   const hashPassword = await bcrypt.hash(req.body.newPassword, 12);
 
   if (!hashPassword) {
     return next(
-      new ErrorResponse(
-        'The server is having problems, please try again later!!',
-        401,
-      ),
+      new ErrorResponse('Server đang gặp sự cố, vui lòng thử lại sau!!', 401),
     );
   } else {
     user.password = hashPassword;
@@ -155,7 +150,7 @@ exports.postChangePassword = AsyncHandler(async (req, res, next) => {
     return res.status(200).json({
       token: token,
       success: true,
-      message: `Change password user id ${req.user.userId} successfully.`,
+      message: `Thay đổi mật khẩu id người dùng ${req.user.userId} thành công.`,
       version: 1.0,
     });
   }
@@ -169,11 +164,11 @@ exports.postChangeAvatarProfile = AsyncHandler(async (req, res, next) => {
     user = await Subscriber.findById(req.user.userId);
   }
   if (!user) {
-    return next(new ErrorResponse('User not found!!', 401));
+    return next(new ErrorResponse('Không tìm thấy người dùng!!', 401));
   }
   if (!req.files['imageAvatar']) {
     return next(
-      new ErrorResponse(`Please enter a valid file image and video`, 404),
+      new ErrorResponse(`Vui lòng nhập tệp hình ảnh và video hợp lệ!!`, 404),
     );
   }
   const infoImage = {
@@ -194,7 +189,7 @@ exports.postChangeAvatarProfile = AsyncHandler(async (req, res, next) => {
   return res.status(200).json({
     token: token,
     success: true,
-    message: `Update avatar profile user id ${req.user.userId} successfully.`,
+    message: `Cập nhật hồ sơ hình đại diện id người dùng ${req.user.userId} thành công.`,
     version: 1.0,
   });
 });
@@ -207,7 +202,7 @@ exports.postDeleteAvatarProfile = AsyncHandler(async (req, res, next) => {
     user = await Subscriber.findById(req.user.userId);
   }
   if (!user) {
-    return next(new ErrorResponse('User not found!!', 401));
+    return next(new ErrorResponse('Không tìm thấy người dùng!!', 401));
   }
   await deleteImageCloud(req.body.imageUser.imageId);
 
@@ -224,7 +219,7 @@ exports.postDeleteAvatarProfile = AsyncHandler(async (req, res, next) => {
   return res.status(200).json({
     token: token,
     success: true,
-    message: `Update avatar profile user id ${req.user.userId} successfully.`,
+    message: `Cập nhật hồ sơ hình đại diện id người dùng ${req.user.userId} thành công.`,
     version: 1.0,
   });
 });
