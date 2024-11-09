@@ -5,6 +5,9 @@ const configDb = require('./configs/configdb.js');
 const cors = require('cors');
 require('./configs/passport.js');
 
+// GOOGLE_CLIENT_ID = 619464605379-nsjrkcfvlaohr77mjietvj3nf98hm0vn.apps.googleusercontent.com
+// GOOGLE_CLIENT_SECRET= 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
+
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const httpServer = createServer(app);
