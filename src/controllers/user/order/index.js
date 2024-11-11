@@ -33,6 +33,7 @@ exports.getOrderFromUserId = AsyncHandler(async (req, res, next) => {
 });
 
 exports.postPackageOrder = AsyncHandler(async (req, res, next) => {
+  console.log(req.body);
   const order = await Order.find({
     userId: req.body.userId,
     expirationDate: { $gt: Date.now() },
@@ -40,8 +41,9 @@ exports.postPackageOrder = AsyncHandler(async (req, res, next) => {
     .sort({ createAt: -1 })
     .limit(1)
     .populate('packageId');
+  console.log(order);
 
-  if (!order) {
+  if (order.length === 0) {
     return res.status(200).json({
       success: false,
       version: 1.0,
