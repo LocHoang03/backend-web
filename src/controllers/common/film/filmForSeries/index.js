@@ -1,7 +1,10 @@
 const FilmForSeries = require('../../../../models/filmForSeries');
 
 exports.getAllFilmForSeries = async (req, res, next) => {
-  const film = await FilmForSeries.find({ seriesId: req.params.seriesId })
+  const film = await FilmForSeries.find({
+    seriesId: req.params.seriesId,
+    isDelete: false,
+  })
     .sort({ filmSerialNumber: 1 })
 
     .populate('seriesId');

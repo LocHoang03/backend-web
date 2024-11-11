@@ -1,7 +1,7 @@
 const Movies = require('../../../../models/movies');
 
 exports.getAllMovies = async (req, res, next) => {
-  const movies = await Movies.find()
+  const movies = await Movies.find({ isDelete: false })
     .sort({ createAt: -1 })
     .populate('listCategoryId');
 
