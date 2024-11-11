@@ -3,7 +3,7 @@ const ErrorResponse = require('../../../../utils/errorResponse');
 const AsyncHandler = require('express-async-handler');
 
 exports.getAllMovies = async (req, res, next) => {
-  const movies = await Movies.find().sort({ createAt: -1 });
+  const movies = await Movies.find({ isDelete: false }).sort({ createAt: -1 });
 
   res.status(200).json({
     data: movies,
@@ -14,7 +14,9 @@ exports.getAllMovies = async (req, res, next) => {
 };
 
 exports.getMoviesFeature = async (req, res, next) => {
-  const movies = await Movies.find().sort({ createAt: -1 }).limit(10);
+  const movies = await Movies.find({ isDelete: false })
+    .sort({ createAt: -1 })
+    .limit(10);
 
   res.status(200).json({
     data: movies,
@@ -25,7 +27,9 @@ exports.getMoviesFeature = async (req, res, next) => {
 };
 
 exports.getMoviesMostNew = async (req, res, next) => {
-  const movies = await Movies.find().sort({ createAt: -1 }).limit(6);
+  const movies = await Movies.find({ isDelete: false })
+    .sort({ createAt: -1 })
+    .limit(6);
 
   res.status(200).json({
     data: movies,
@@ -36,7 +40,9 @@ exports.getMoviesMostNew = async (req, res, next) => {
 };
 
 exports.getMoviesMostView = async (req, res, next) => {
-  const movies = await Movies.find().sort({ view: -1 }).limit(6);
+  const movies = await Movies.find({ isDelete: false })
+    .sort({ view: -1 })
+    .limit(6);
 
   res.status(200).json({
     data: movies,
@@ -47,7 +53,9 @@ exports.getMoviesMostView = async (req, res, next) => {
 };
 
 exports.getMoviesMostRating = async (req, res, next) => {
-  const movies = await Movies.find().sort({ rating: -1 }).limit(6);
+  const movies = await Movies.find({ isDelete: false })
+    .sort({ rating: -1 })
+    .limit(6);
 
   res.status(200).json({
     data: movies,
@@ -67,6 +75,7 @@ exports.getMoviesCanWantToMatch = async (req, res, next) => {
   }
   const movies = await Movies.find({
     listCategoryId: { $in: film.listCategoryId },
+    isDelete: false,
   })
     .sort({ createAt: -1 })
     .limit(10);
