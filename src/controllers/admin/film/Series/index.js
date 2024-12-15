@@ -1,4 +1,5 @@
 const Series = require('../../../../models/series');
+const Comment = require('../../../../models/comment');
 const FilmForSeries = require('../../../../models/filmForSeries');
 const ErrorResponse = require('../../../../utils/errorResponse');
 const AsyncHandler = require('express-async-handler');
@@ -36,7 +37,9 @@ exports.postCreateSeries = AsyncHandler(async (req, res, next) => {
     imageUrl: infoImage,
     videoUrl: infoVideoTrailer,
     listCategoryId: req.body.listCategoryId.split(','),
-    listPackageIdBand: req.body.listPackageIdBand.split(','),
+    listPackageIdBand: req.body.listPackageIdBand
+      ? req.body.listPackageIdBand.split(',')
+      : [],
     createAt: Date.now(),
   });
 
@@ -55,20 +58,21 @@ exports.postCreateSeries = AsyncHandler(async (req, res, next) => {
 
 exports.postDeleteSeries = AsyncHandler(async (req, res, next) => {
   if (!req.params.seriesId) {
-    return next(
-      new ErrorResponse(`Please enter a valid id series delete`, 404),
-    );
+    return next(new ErrorResponse(`Vui lòng nhập dãy id hợp lệ xóa`, 404));
   }
 
   if (!req.body.type) {
-    return next(new ErrorResponse(`Please send type series delete`, 404));
+    return next(new ErrorResponse(`Vui lòng gửi loại xóa loạt`, 404));
   }
 
   const series = await Series.findById(req.params.seriesId);
 
   if (!series) {
     return next(
-      new ErrorResponse(`Cannot find series id ${req.params.seriesId}!!`, 401),
+      new ErrorResponse(
+        `Không thể tìm thấy id phim ${req.params.seriesId}!!`,
+        401,
+      ),
     );
   }
   if (req.body.type === 'delete') {
@@ -86,6 +90,10 @@ exports.postDeleteSeries = AsyncHandler(async (req, res, next) => {
       );
     }
     await FilmForSeries.deleteMany({ seriesId: req.params.seriesId });
+    await Comment.deleteMany({
+      moviesId: req.params.seriesId,
+      onModel: 'Series',
+    });
     await Series.deleteOne({ _id: req.params.seriesId });
   }
 
@@ -100,7 +108,10 @@ exports.postUpdateSeries = AsyncHandler(async (req, res, next) => {
 
   if (!series) {
     return next(
-      new ErrorResponse(`Cannot find series id ${req.params.seriesId}!!`, 401),
+      new ErrorResponse(
+        `Không thể tìm thấy id bộ truyện ${req.params.seriesId}!!`,
+        401,
+      ),
     );
   }
   let infoVideoTrailer, infoImage;
@@ -132,7 +143,9 @@ exports.postUpdateSeries = AsyncHandler(async (req, res, next) => {
     series.videoUrl = infoVideoTrailer;
   }
   series.listCategoryId = req.body.listCategoryId.split(',');
-  series.listPackageIdBand = req.body.listPackageIdBand.split(',');
+  series.listPackageIdBand = req.body.listPackageIdBand
+    ? req.body.listPackageIdBand.split(',')
+    : [];
 
   try {
     await series.save();
@@ -151,7 +164,10 @@ exports.postRecoverSeries = AsyncHandler(async (req, res, next) => {
 
   if (!series) {
     return next(
-      new ErrorResponse(`Cannot find series id ${req.body.dataId}!!`, 401),
+      new ErrorResponse(
+        `Không thể tìm thấy id bộ truyện ${req.body.dataId}!!`,
+        401,
+      ),
     );
   }
   series.isDelete = false;
@@ -227,5 +243,28 @@ exports.postAddManyMovies = AsyncHandler(async (req, res, next) => {
     data: series,
     count: countSeries.length,
     message: 'Tạo nhiều phim thành công',
+  });
+});
+
+exports.postCheckNameSeries = AsyncHandler(async (req, res, next) => {
+  let film;
+  console.log(req.body);
+  if (req.body.type === 'update') {
+    film = await Series.find({
+      $and: [{ _id: { $ne: req.body.seriesId } }, { title: req.body.title }],
+    });
+  } else {
+    film = await Series.find({
+      title: req.body.title,
+    });
+  }
+
+  if (film.length > 0) {
+    return next(new ErrorResponse(`Tên phim này đã tồn tại!!!`, 401));
+  }
+
+  res.status(201).json({
+    success: true,
+    version: 1.0,
   });
 });

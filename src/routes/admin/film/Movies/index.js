@@ -21,4 +21,6 @@ router
   .post(uploadCsv, MoviesController.postAddManyMovies);
 router.route('/recover-movies').post(MoviesController.postRecoverMovies);
 
+router.route('/check-name-movies').post(MoviesController.postCheckNameFilm);
+
 module.exports = router;

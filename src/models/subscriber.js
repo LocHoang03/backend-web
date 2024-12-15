@@ -62,6 +62,10 @@ const Subscriber = new Schema({
     required: true,
     default: false,
   },
+  lockReason: {
+    type: String,
+    required: false,
+  },
   isDelete: {
     type: Boolean,
     required: true,

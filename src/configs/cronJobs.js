@@ -12,10 +12,10 @@ cron.schedule('* * * * *', async () => {
     if (expiredOrders.length > 0) {
       for (const order of expiredOrders) {
         order.isDelete = true;
+        await order.save();
       }
     }
   } catch (error) {}
 });
 
-// Thêm các tác vụ khác nếu cần
 module.exports = cron;

@@ -10,7 +10,9 @@ exports.getAllFilmForSeries = AsyncHandler(async (req, res, next) => {});
 
 exports.postCreateFilmForSeries = AsyncHandler(async (req, res, next) => {
   if (!req.files['videoUrl']) {
-    return next(new ErrorResponse(`Please enter a valid file video`, 404));
+    return next(
+      new ErrorResponse(`Vui lòng nhập một tập tin video hợp lệ`, 404),
+    );
   }
 
   const infoVideo = {
@@ -52,17 +54,17 @@ exports.postCreateFilmForSeries = AsyncHandler(async (req, res, next) => {
 
 exports.postDeleteFilmForSeries = AsyncHandler(async (req, res, next) => {
   if (!req.params.filmId) {
-    return next(new ErrorResponse(`Please enter a valid id film delete`, 404));
+    return next(new ErrorResponse(`Vui lòng nhập id phim hợp lệ xóa`, 404));
   }
   if (!req.body.type) {
-    return next(new ErrorResponse(`Please send type film delete`, 404));
+    return next(new ErrorResponse(`Xin vui lòng gửi loại phim xóa`, 404));
   }
 
   const film = await FilmForSeries.findOne({ _id: req.params.filmId });
 
   if (!film) {
     return next(
-      new ErrorResponse(`Cannot find film id ${req.params.filmId}!!`, 401),
+      new ErrorResponse(`Không tìm thấy id phim ${req.params.filmId}!!`, 401),
     );
   }
   if (req.body.type === 'delete') {
@@ -83,7 +85,7 @@ exports.postUpdateFilmForSeries = AsyncHandler(async (req, res, next) => {
   const film = await FilmForSeries.findById(req.params.filmId);
   if (!film) {
     return next(
-      new ErrorResponse(`Cannot find film id ${req.params.filmId}!!`, 401),
+      new ErrorResponse(`Không tìm thấy id phim ${req.params.filmId}!!`, 401),
     );
   }
 
@@ -163,7 +165,7 @@ exports.postRecoverFilmForSeries = AsyncHandler(async (req, res, next) => {
 
   if (!film) {
     return next(
-      new ErrorResponse(`Cannot find film id ${req.body.dataId}!!`, 401),
+      new ErrorResponse(`Không tìm thấy id phim ${req.body.dataId}!!`, 401),
     );
   }
   film.isDelete = false;

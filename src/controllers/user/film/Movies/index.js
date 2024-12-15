@@ -40,9 +40,10 @@ exports.getMoviesMostNew = async (req, res, next) => {
 };
 
 exports.getMoviesMostView = async (req, res, next) => {
-  const movies = await Movies.find({ isDelete: false })
-    .sort({ view: -1 })
-    .limit(6);
+  const movies = await Movies.aggregate([
+    { $match: { isDelete: false } },
+    { $sample: { size: 6 } },
+  ]);
 
   res.status(200).json({
     data: movies,

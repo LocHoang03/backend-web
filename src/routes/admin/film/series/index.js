@@ -27,4 +27,6 @@ router
   .route('/create-many-film-for-series')
   .post(uploadCsv, postAddManyFilmForSeries);
 
+router.route('/check-name-series').post(SeriesController.postCheckNameSeries);
+
 module.exports = router;

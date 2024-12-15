@@ -16,7 +16,6 @@ exports.postLogin = AsyncHandler(async (req, res, next) => {
   if (!errors.isEmpty()) {
     return next(new ErrorResponse(errors.array()[0].msg, 401));
   }
-  console.log(req.body);
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return next(
@@ -116,7 +115,7 @@ exports.postResetPassword = AsyncHandler(async (req, res, next) => {
     from: `Showhub ${process.env.EMAIL_USERNAME}`,
     to: user.email,
     subject: 'Yêu cầu đặt lại mật khẩu tài khoản Showhub',
-    html: emailResetPasswordTemplate(user.firstName + user.lastName, password),
+    html: emailResetPasswordTemplate(user.lastName + user.firstName, password),
   });
 
   res.status(200).json({

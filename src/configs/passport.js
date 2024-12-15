@@ -4,7 +4,7 @@ const User = require('../models/user');
 const Subscriber = require('../models/subscriber');
 const transporter = require('../configs/nodeMailer.js');
 const emailSignupGoogleTemplate = require('../configs/mailSignupWithGoogle.js');
-
+const generator = require('generate-password');
 require('dotenv').config();
 
 passport.use(
@@ -22,19 +22,29 @@ passport.use(
           email: profile.emails[0].value,
         });
         if (!user && !subscriber) {
+          const password = generator.generate({
+            length: 8,
+            numbers: true,
+            symbols: true,
+            lowercase: true,
+            uppercase: true,
+          });
+
+          const hashPassword = await bcrypt.hash(password, 12);
           newUser = await Subscriber.create({
             firstName: profile?.name?.givenName || ' ',
             lastName: profile?.name?.familyName || ' ',
             email: profile.emails[0].value,
+            password: hashPassword,
             createAt: Date.now(),
           });
-          console.log(newUser);
           transporter.sendMail({
             from: `Showhub ${process.env.EMAIL_USERNAME}`,
             to: profile.emails[0].value,
             subject: 'Đăng ký tài khoản Showhub của bạn',
             html: emailSignupGoogleTemplate(
               profile.name.givenName + profile.name.familyName,
+              password,
             ),
           });
         }

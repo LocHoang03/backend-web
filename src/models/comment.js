@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const Schema = require('mongoose').Schema;
+const Schema = mongoose.Schema;
 
-const Comment = new Schema({
+const CommentSchema = new Schema({
   content: {
     type: String,
     required: true,
@@ -11,30 +11,35 @@ const Comment = new Schema({
     required: true,
     ref: 'Subscriber',
   },
-
   moviesId: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'Movies',
+    refPath: 'onModel',
+  },
+  onModel: {
+    type: String,
+    required: true,
+    enum: ['Movies', 'Series'],
   },
   parentUserId: {
     type: Schema.Types.ObjectId,
-    required: false,
     ref: 'Subscriber',
+    default: null,
   },
   parentCommentId: {
     type: Schema.Types.ObjectId,
-    required: false,
-    ref: 'Movies',
+    ref: 'Comment',
+    default: null,
   },
   rootCommentId: {
     type: Schema.Types.ObjectId,
-    required: false,
-    ref: 'Movies',
+    ref: 'Comment',
+    default: null,
   },
   createAt: {
     type: Date,
+    default: Date.now,
   },
 });
 
-module.exports = mongoose.model('Comment', Comment);
+module.exports = mongoose.model('Comment', CommentSchema);

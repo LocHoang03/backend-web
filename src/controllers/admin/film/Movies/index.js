@@ -1,4 +1,5 @@
 const Movies = require('../../../../models/movies');
+const Comment = require('../../../../models/comment');
 const ErrorResponse = require('../../../../utils/errorResponse');
 const AsyncHandler = require('express-async-handler');
 const { deleteImageCloud } = require('../../../../helpers/uploadImage');
@@ -54,7 +55,9 @@ exports.postCreateMovies = AsyncHandler(async (req, res, next) => {
     videoUrl: infoVideo,
     createAt: Date.now(),
     listCategoryId: req.body.listCategoryId.split(','),
-    listPackageIdBand: req.body.listPackageIdBand.split(','),
+    listPackageIdBand: req.body.listPackageIdBand
+      ? req.body.listPackageIdBand.split(',')
+      : [],
   });
   if (!movies) {
     return next(
@@ -93,6 +96,10 @@ exports.postDeleteMovies = AsyncHandler(async (req, res, next) => {
     await deleteImageCloud(movies.imageUrl.imageId);
     await deleteVideoCloud(movies.videoTrailerUrl.videoId);
     await deleteVideoCloud(movies.videoUrl.videoId);
+    await Comment.deleteMany({
+      moviesId: req.params.moviesId,
+      onModel: 'Movies',
+    });
     await Movies.deleteOne({ _id: req.params.moviesId });
   }
 
@@ -158,7 +165,9 @@ exports.postUpdateMovies = AsyncHandler(async (req, res, next) => {
   }
 
   movies.listCategoryId = req.body.listCategoryId.split(',');
-  movies.listPackageIdBand = req.body.listPackageIdBand.split(',');
+  movies.listPackageIdBand = req.body.listPackageIdBand
+    ? req.body.listPackageIdBand.split(',')
+    : [];
   try {
     await movies.save();
   } catch (error) {
@@ -312,10 +321,9 @@ exports.postAddManyMovies = AsyncHandler(async (req, res, next) => {
         },
         createAt: Date.now(),
         listCategoryId: item.listCategoryId.split(','),
-        listPackageIdBand:
-          item.listPackageIdBand !== ''
-            ? item.listPackageIdBand.split(',')
-            : [],
+        listPackageIdBand: req.body.listPackageIdBand
+          ? req.body.listPackageIdBand.split(',')
+          : [],
       });
     }),
   ]);
@@ -341,7 +349,7 @@ exports.postRecoverMovies = AsyncHandler(async (req, res, next) => {
 
   if (!movies) {
     return next(
-      new ErrorResponse(`Cannot find movies id ${req.body.dataId}!!`, 401),
+      new ErrorResponse(`Không tìm thấy id phim ${req.body.dataId}!!`, 401),
     );
   }
   movies.isDelete = false;
@@ -349,5 +357,29 @@ exports.postRecoverMovies = AsyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: 'Thay đổi trạng thái phim thành công',
+  });
+});
+
+exports.postCheckNameFilm = AsyncHandler(async (req, res, next) => {
+  let film;
+  console.log(req.body);
+
+  if (req.body.type === 'update') {
+    film = await Movies.find({
+      $and: [{ _id: { $ne: req.body.filmId } }, { title: req.body.title }],
+    });
+  } else {
+    film = await Movies.find({
+      title: req.body.title,
+    });
+  }
+
+  if (film.length > 0) {
+    return next(new ErrorResponse(`Tên phim này đã tồn tại!!!`, 401));
+  }
+
+  res.status(201).json({
+    success: true,
+    version: 1.0,
   });
 });

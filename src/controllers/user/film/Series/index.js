@@ -40,9 +40,10 @@ exports.getSeriesMostNew = async (req, res, next) => {
 };
 
 exports.getSeriesMostView = async (req, res, next) => {
-  const series = await Series.find({ isDelete: false })
-    .sort({ view: -1 })
-    .limit(6);
+  const series = await Series.aggregate([
+    { $match: { isDelete: false } },
+    { $sample: { size: 6 } },
+  ]);
 
   res.status(200).json({
     data: series,

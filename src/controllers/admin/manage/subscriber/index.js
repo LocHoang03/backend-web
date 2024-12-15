@@ -137,6 +137,7 @@ exports.postBannedSubscriber = AsyncHandler(async (req, res, next) => {
     );
   }
   subscriber.isBanned = true;
+  subscriber.lockReason = req.body.lockReason;
   await subscriber.save();
   res.status(200).json({
     success: true,
@@ -156,6 +157,8 @@ exports.postRecoverSubscriber = AsyncHandler(async (req, res, next) => {
     );
   }
   subscriber.isBanned = false;
+  subscriber.lockReason = undefined;
+
   await subscriber.save();
   res.status(200).json({
     success: true,

@@ -13,7 +13,9 @@ const emailTemplate = (email, token) => `
 
                 <p style="margin: 0; margin-bottom: 30px; color: #294661; font-size: 16px; font-weight: 300;">Đã nhận được yêu cầu thay đổi mật khẩu cho tài khoản ShowHub của bạn.</p>
 
-                <div style="text-align: center;margin-bottom: 30px"><a href="http://localhost:3000/auth/reset-password/${token}" style="box-sizing: border-box;border-color: #348eda;font-weight: 400;text-decoration: none;display: inline-block;margin: 0;color: #ffffff;background-color: #348eda;border: solid 1px #348eda;border-radius: 2px;font-size: 14px;padding: 12px 45px;">Đặt lại mật khẩu</a></div>
+                <div style="text-align: center;margin-bottom: 30px"><a href="${
+                  process.env.URL_CLIENT
+                }/auth/reset-password/${token}" style="box-sizing: border-box;border-color: #348eda;font-weight: 400;text-decoration: none;display: inline-block;margin: 0;color: #ffffff;background-color: #348eda;border: solid 1px #348eda;border-radius: 2px;font-size: 14px;padding: 12px 45px;">Đặt lại mật khẩu</a></div>
 
                 <p style="margin: 0;margin-bottom: 30px;color: #294661;font-size: 16px;font-weight: 300;">Nếu bạn không thực hiện yêu cầu này, vui lòng liên hệ ngay với chúng tôi theo địa chỉ hoangphuocloc.phurieng@gmail.com.</p>
 

@@ -34,7 +34,6 @@ exports.postLogin = AsyncHandler(async (req, res, next) => {
       new ErrorResponse('Thông tin tài khoản hoặc mật khẩu không đúng!!', 401),
     );
   }
-
   const userInfo = {
     userId: user._id,
     email: user.email,
@@ -345,13 +344,13 @@ exports.postVerifyLogin = AsyncHandler(async (req, res, next) => {
     'twoFactor.time': { $gt: Date.now() },
   });
   if (!user) {
-    return next(new ErrorResponse('User does not exist!!!!', 401));
+    return next(new ErrorResponse('Người dùng không tồn tại!!!!', 401));
   } else {
     user.twoFactor.auth = true;
     await user.save();
     return res.status(200).json({
       success: true,
-      message: 'Verify login successfully.',
+      message: 'Xác nhận đăng nhập thành công.',
       version: 1.0,
     });
   }

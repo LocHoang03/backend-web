@@ -17,12 +17,12 @@ const createOrderPdf = (orderPdf) => {
         right: 72,
       },
     });
-    let fontPath = path.join(__dirname, '../', 'fonts', 'Arial.ttf');
+    const fontPath = path.join(__dirname, '../', 'fonts', 'Arial.ttf');
     const invoicePath = 'invoice.pdf';
     pdfDoc.pipe(fs.createWriteStream(invoicePath));
 
     // Bắt đầu ghi PDF
-    pdfDoc.font('Times-Bold').fontSize(14).text('SHOWHUB', {
+    pdfDoc.font(fontPath).fontSize(14).text('SHOWHUB', {
       align: 'center',
     });
     const yPos = pdfDoc.y;
@@ -99,13 +99,19 @@ const createOrderPdf = (orderPdf) => {
       .fillColor('#000')
       .text(orderPdf.packageId.typePack, pdfDoc.page.margins.left, y);
     pdfDoc.text(
-      `${orderPdf.packageId.monthlyPrice} USD`,
+      `${orderPdf.packageId.monthlyPrice.toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })} VND`,
       pdfDoc.page.margins.left + 150,
       y,
       { width: 100, align: 'left' },
     );
     pdfDoc.text(
-      `${orderPdf.packageId.monthlyPrice} USD`,
+      `${orderPdf.packageId.monthlyPrice.toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })} VND`,
       pdfDoc.page.margins.left + 350,
       y,
       { width: 100, align: 'left' },
@@ -119,11 +125,17 @@ const createOrderPdf = (orderPdf) => {
       .lineTo(pdfDoc.page.width - pdfDoc.page.margins.right, y + 20)
       .stroke();
 
+    pdfDoc.text('Tổng ', pdfDoc.page.margins.left, y + 30);
+
     pdfDoc.text(
-      'Tổng: ' + orderPdf.packageId.monthlyPrice + ' USD',
+      '' +
+        orderPdf.packageId.monthlyPrice.toLocaleString('en-US', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }) +
+        ' VND',
       pdfDoc.page.margins.left + 350,
       y + 30,
-      { width: 100, align: 'right' },
     );
 
     const yPositionTerms = pdfDoc.y + 50;
@@ -133,12 +145,11 @@ const createOrderPdf = (orderPdf) => {
       .text('Điều khoản & Điều kiện', pdfDoc.page.margins.left, yPositionTerms);
     pdfDoc.moveDown();
     pdfDoc
-      .font('Times-Roman')
       .fontSize(15)
       .text(
         '1. Các mức giá trong biểu mẫu này không có bất kỳ thay đổi nào và sẽ là mức giá áp dụng khi thanh toán.',
         pdfDoc.page.margins.left,
-        yPositionTerms + 20,
+        yPositionTerms + 22,
       );
     pdfDoc.moveDown();
     pdfDoc
@@ -146,7 +157,7 @@ const createOrderPdf = (orderPdf) => {
       .text(
         '2. Lệnh giao hàng này sẽ không có hiệu lực trừ khi người nhận xuất trình bản gốc hóa đơn mua hàng.',
         pdfDoc.page.margins.left,
-        yPositionTerms + 60,
+        yPositionTerms + 62,
       );
 
     // Kết thúc ghi PDF

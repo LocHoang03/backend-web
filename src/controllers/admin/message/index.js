@@ -137,7 +137,7 @@ exports.postUpdateJoinChat = AsyncHandler(async (req, res, next) => {
 
     res
       .status(200)
-      .json({ success: true, message: 'Admin updated successfully' });
+      .json({ success: true, message: 'Quản trị viên đã cập nhật thành công' });
   } catch (err) {
     return next(new ErrorResponse('Lỗi cập nhật quản trị viên', 500));
   }

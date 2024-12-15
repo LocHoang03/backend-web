@@ -6,6 +6,7 @@ exports.getAllComment = async (req, res, next) => {
   const comment = await Comment.find()
     .populate('userId')
     .populate('parentUserId')
+    .populate('parentUserId')
     .sort({ createAt: -1 });
   res.status(200).json({
     data: comment,
@@ -17,34 +18,42 @@ exports.getAllComment = async (req, res, next) => {
 
 exports.postAddComment = AsyncHandler(async (req, res, next) => {
   let newComment;
-  if (req.query.reply === 'true') {
-    newComment = await Comment.create({
-      content: req.body.content,
-      userId: req.body.userId,
-      moviesId: req.body.moviesId,
-      parentCommentId: req.body.parentCommentId,
-      parentUserId: req.body.parentUserId.userId,
-      rootCommentId: req.body.rootCommentId,
-      createAt: Date.now(),
-    });
-  } else {
-    newComment = await Comment.create({
-      content: req.body.content,
-      userId: req.body.userId,
-      moviesId: req.body.moviesId,
-      createAt: Date.now(),
-    });
-  }
-  if (newComment) {
-    return res.status(200).json({
-      data: newComment,
-      success: true,
-      message: 'Tạo bình luận thành công.',
-      version: 1.0,
-    });
-  } else {
+  try {
+    if (req.query.reply === 'true') {
+      newComment = await Comment.create({
+        content: req.body.content,
+        userId: req.body.userId,
+        moviesId: req.body.moviesId,
+        onModel: req.body.type,
+        parentCommentId: req.body.parentCommentId,
+        parentUserId: req.body.parentUserId,
+        rootCommentId: req.body.rootCommentId,
+        createAt: Date.now(),
+      });
+    } else {
+      newComment = await Comment.create({
+        content: req.body.content,
+        userId: req.body.userId,
+        moviesId: req.body.moviesId,
+        onModel: req.body.type,
+        createAt: Date.now(),
+      });
+    }
+    if (newComment) {
+      return res.status(200).json({
+        data: newComment,
+        success: true,
+        message: 'Tạo bình luận thành công.',
+        version: 1.0,
+      });
+    } else {
+      return next(
+        new ErrorResponse('Server đang gặp sự cố, vui lòng thử lại sau!!', 401),
+      );
+    }
+  } catch (error) {
     return next(
-      new ErrorResponse('Server đang gặp sự cố, vui lòng thử lại sau!!', 401),
+      new ErrorResponse('Server đang gặp sự cố, vui lòng thử lại sau!!', 500),
     );
   }
 });
@@ -52,7 +61,7 @@ exports.postAddComment = AsyncHandler(async (req, res, next) => {
 exports.postDeleteComment = async (req, res, next) => {
   if (!req.params.commentId) {
     return next(
-      new ErrorResponse(`Please enter a valid id comment delete`, 404),
+      new ErrorResponse(`Vui lòng nhập id hợp lệ bình luận xóa`, 404),
     );
   }
 
@@ -74,7 +83,10 @@ exports.postUpdateComment = AsyncHandler(async (req, res, next) => {
   const comment = await Comment.findById(req.body.commentId);
   if (!comment) {
     return next(
-      new ErrorResponse(`Cannot find comment id ${req.body.commentId}!!`, 401),
+      new ErrorResponse(
+        `Không thể tìm thấy id nhận xét ${req.body.commentId}!!`,
+        401,
+      ),
     );
   }
   comment.content = req.body.content;

@@ -18,8 +18,8 @@ exports.getPayment = AsyncHandler(async (req, res, next) => {
 
 exports.postPayment = AsyncHandler(async (req, res, next) => {
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: req.body.monthlyPrice * 100,
-    currency: 'usd',
+    amount: Math.round(req.body.monthlyPrice),
+    currency: 'VND',
     automatic_payment_methods: {
       enabled: true,
     },
